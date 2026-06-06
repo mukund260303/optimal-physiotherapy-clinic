@@ -16,8 +16,10 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Optimal Physiotherapy | Best Physiotherapy Clinic in Lalghati Bhopal",
+
   description:
     "Optimal Physiotherapy Clinic in Lalghati Bhopal — Expert physiotherapy for back pain, spine, sports injury, stroke rehabilitation, neuro care & women's health by Dr. Pavan Patidar (PT) & Dr. Ravina Patidar (PT).",
+
   keywords: [
     "physiotherapy bhopal",
     "physiotherapist lalghati bhopal",
@@ -31,36 +33,47 @@ export const metadata: Metadata = {
     "women health physiotherapy bhopal",
     "optimal physiotherapy lalghati",
   ],
+
   authors: [{ name: "Dr. Pavan Patidar (PT)" }],
   creator: "Optimal Physiotherapy",
   publisher: "Optimal Physiotherapy",
-  metadataBase: new URL("https://clinik-optimal.vercel.app"),
+
+  metadataBase: new URL("https://optimalphysiotherapyclinic.com"),
+
   alternates: {
-    canonical: "https://clinik-optimal.vercel.app",
+    canonical: "https://optimalphysiotherapyclinic.com",
   },
+
+  verification: {
+    google: "-7Z8LZEN8rTDNHGOXj7Gvhvcgqv8B-AlxwF6Q",
+  },
+
   openGraph: {
     title: "Optimal Physiotherapy | Best Clinic in Lalghati Bhopal",
     description:
       "Advanced physiotherapy for spine, sports injury, neuro rehabilitation & women's health in Lalghati, Bhopal.",
-    url: "https://clinik-optimal.vercel.app",
+    url: "https://optimalphysiotherapyclinic.com",
     siteName: "Optimal Physiotherapy",
     locale: "en_IN",
     type: "website",
     images: [
       {
-        url: "/logo.png",
+        url: "https://optimalphysiotherapyclinic.com/logo.png",
         width: 512,
         height: 512,
         alt: "Optimal Physiotherapy Bhopal",
       },
     ],
   },
+
   twitter: {
     card: "summary_large_image",
     title: "Optimal Physiotherapy | Best Clinic in Lalghati Bhopal",
     description:
       "Expert physiotherapy for back pain, sports injury, stroke & neuro rehabilitation in Bhopal.",
+    images: ["https://optimalphysiotherapyclinic.com/logo.png"],
   },
+
   robots: {
     index: true,
     follow: true,
@@ -74,18 +87,25 @@ export const metadata: Metadata = {
 const schemaMarkup = {
   "@context": "https://schema.org",
   "@type": "MedicalBusiness",
-  "@id": "https://clinik-optimal.vercel.app",
+  "@id": "https://optimalphysiotherapyclinic.com",
+
   name: "Optimal Physiotherapy",
   alternateName: "Optimal Physiotherapy & Rehabilitation Centre",
+
   description:
     "Advanced physiotherapy clinic in Lalghati Bhopal providing expert care for spine pain, sports injuries, stroke rehabilitation, neuro care and women's health physiotherapy.",
-  url: "https://clinik-optimal.vercel.app",
+
+  url: "https://optimalphysiotherapyclinic.com",
+
   telephone: "+919329579550",
-  image: "https://clinik-optimal.vercel.app/logo.png",
-  logo: "https://clinik-optimal.vercel.app/logo.png",
+
+  image: "https://optimalphysiotherapyclinic.com/logo.png",
+  logo: "https://optimalphysiotherapyclinic.com/logo.png",
+
   priceRange: "₹₹",
   currenciesAccepted: "INR",
   paymentAccepted: "Cash, UPI",
+
   address: {
     "@type": "PostalAddress",
     streetAddress: "Lalghati Crossroads",
@@ -94,25 +114,42 @@ const schemaMarkup = {
     postalCode: "462030",
     addressCountry: "IN",
   },
+
   geo: {
     "@type": "GeoCoordinates",
     latitude: 23.2599,
     longitude: 77.4126,
   },
+
   openingHoursSpecification: [
     {
       "@type": "OpeningHoursSpecification",
-      dayOfWeek: ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
+      dayOfWeek: [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+      ],
       opens: "09:00",
       closes: "13:00",
     },
     {
       "@type": "OpeningHoursSpecification",
-      dayOfWeek: ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
+      dayOfWeek: [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+      ],
       opens: "17:00",
       closes: "20:30",
     },
   ],
+
   medicalSpecialty: [
     "Physiotherapy",
     "Sports Rehabilitation",
@@ -120,24 +157,30 @@ const schemaMarkup = {
     "Orthopedic Rehabilitation",
     "Women's Health Physiotherapy",
   ],
-  hasMap: "https://maps.google.com/?q=Optimal+Physiotherapy+Lalghati+Bhopal",
+
+  hasMap:
+    "https://maps.google.com/?q=Optimal+Physiotherapy+Lalghati+Bhopal",
+
   sameAs: [
     "https://www.instagram.com/drpavanpatidar",
     "https://www.facebook.com/profile.php?id=100064107486462",
     "https://www.youtube.com/@optimalphysiotherapy9860",
   ],
+
   employee: [
     {
       "@type": "Person",
       name: "Dr. Pavan Patidar",
       jobTitle: "Senior Physiotherapist",
-      description: "MPT (Orthopaedic) — Expert in spine, knee, shoulder & sports injury. 12+ years experience.",
+      description:
+        "MPT (Orthopaedic) — Expert in spine, knee, shoulder & sports injury. 12+ years experience.",
     },
     {
       "@type": "Person",
       name: "Dr. Ravina Patidar",
       jobTitle: "Senior Physiotherapist",
-      description: "MPT (Neuro) — Expert in stroke, neuropathy & women's health. 8+ years experience.",
+      description:
+        "MPT (Neuro) — Expert in stroke, neuropathy & women's health. 8+ years experience.",
     },
   ],
 };
@@ -152,9 +195,12 @@ export default function RootLayout({
       <head>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaMarkup) }}
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(schemaMarkup),
+          }}
         />
       </head>
+
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased font-sans bg-white`}
       >
