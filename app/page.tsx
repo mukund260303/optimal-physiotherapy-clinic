@@ -185,7 +185,7 @@ export default function Home() {
             <div className="space-y-10">
               <div className="flex items-start gap-6"><MapPin className="text-blue-500 mt-1 shrink-0" size={24} /><div><p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 mb-2">Location</p><p className="text-xl font-bold italic">Lalghati Crossroads, Bhopal, MP</p></div></div>
               <div className="flex items-start gap-6"><Clock className="text-blue-500 mt-1 shrink-0" size={24} /><div><p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 mb-2">Timing</p><p className="text-lg font-bold italic text-blue-400">Morning: 9:00AM – 1:00PM</p><p className="text-lg font-bold italic text-blue-400">Evening: 5:00PM – 8:30PM (Mon–Sat)</p></div></div>
-              <div className="flex items-start gap-6"><Phone className="text-blue-500 mt-1 shrink-0" size={24} /><div><p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 mb-2">Phone</p><a href="tel:+919691898412" className="text-xl font-bold italic hover:text-blue-400 transition-colors">+91 96918 98412</a></div></div>
+              <div className="flex items-start gap-6"><Phone className="text-blue-500 mt-1 shrink-0" size={24} /><div><p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 mb-2">Phone</p><a href="tel:+919329579550" className="text-xl font-bold italic hover:text-blue-400 transition-colors">+91 93295 79550</a></div></div>
             </div>
             <Link href="/book" className="mt-16 inline-flex bg-white text-slate-900 px-12 py-6 rounded-3xl font-black text-xs uppercase tracking-[0.2em] hover:bg-blue-600 hover:text-white transition-all shadow-xl">Reserve Your Slot</Link>
           </Reveal>
