@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+// @ts-ignore: allow side-effect CSS import without type declarations
 import "./globals.css";
 import TopInfoBar from "@/components/TopInfoBar";
 import FloatingButtons from "@/components/FloatingButtons";
@@ -38,10 +39,10 @@ export const metadata: Metadata = {
   creator: "Optimal Physiotherapy",
   publisher: "Optimal Physiotherapy",
 
-  metadataBase: new URL("https://optimalphysiotherapyclinic.com"),
+  metadataBase: new URL("https://www.optimalphysiotherapyclinic.com"),
 
   alternates: {
-    canonical: "https://optimalphysiotherapyclinic.com",
+    canonical: "https://www.optimalphysiotherapyclinic.com",
   },
 
   verification: {
@@ -52,7 +53,7 @@ export const metadata: Metadata = {
     title: "Optimal Physiotherapy | Best Clinic in Lalghati Bhopal",
     description:
       "Advanced physiotherapy for spine, sports injury, neuro rehabilitation & women's health in Lalghati, Bhopal.",
-    url: "https://optimalphysiotherapyclinic.com",
+    url: "https://www.optimalphysiotherapyclinic.com",
     siteName: "Optimal Physiotherapy",
     locale: "en_IN",
     type: "website",
@@ -87,7 +88,7 @@ export const metadata: Metadata = {
 const schemaMarkup = {
   "@context": "https://schema.org",
   "@type": "MedicalBusiness",
-  "@id": "https://optimalphysiotherapyclinic.com",
+  "@id": "https://www.optimalphysiotherapyclinic.com",
 
   name: "Optimal Physiotherapy",
   alternateName: "Optimal Physiotherapy & Rehabilitation Centre",
@@ -95,12 +96,12 @@ const schemaMarkup = {
   description:
     "Advanced physiotherapy clinic in Lalghati Bhopal providing expert care for spine pain, sports injuries, stroke rehabilitation, neuro care and women's health physiotherapy.",
 
-  url: "https://optimalphysiotherapyclinic.com",
+  url: "https://www.optimalphysiotherapyclinic.com",
 
   telephone: "+919329579550",
 
-  image: "https://optimalphysiotherapyclinic.com/logo.png",
-  logo: "https://optimalphysiotherapyclinic.com/logo.png",
+  image: "https://www.optimalphysiotherapyclinic.com/logo.png",
+  logo: "https://www.optimalphysiotherapyclinic.com/logo.png",
 
   priceRange: "₹₹",
   currenciesAccepted: "INR",
