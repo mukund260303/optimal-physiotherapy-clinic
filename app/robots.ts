@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next'
- 
+
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: {
@@ -7,6 +7,9 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: ['/admin', '/login'],
     },
-    sitemap: 'https://clinik-optimal.vercel.app/sitemap.xml',
+
+    sitemap: 'https://www.optimalphysiotherapyclinic.com/sitemap.xml',
+
+    host: 'https://www.optimalphysiotherapyclinic.com',
   }
 }
