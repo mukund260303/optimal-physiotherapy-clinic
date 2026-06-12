@@ -6,8 +6,8 @@ export default function LoginPage() {
   const [user, setUser] = useState('')
   const [pass, setPass] = useState('')
   
-  const ADMIN_USER = "admin_pavan"
-  const ADMIN_PASS = "optimal@2026"
+  const ADMIN_USER = "optimal_pavan"
+  const ADMIN_PASS = "optimal_pavan@2026"
 
   useEffect(() => {
     const authStatus = localStorage.getItem('isOptimalAdmin')
