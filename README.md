@@ -1,36 +1,95 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Optimal Physiotherapy Clinic
 
-## Getting Started
+A production-ready physiotherapy clinic management and appointment booking platform developed for Optimal Physiotherapy Clinic. The platform is actively used by real patients and clinic staff for appointment scheduling, clinic information access, patient engagement, and service management.
 
-First, run the development server:
+## 🌐 Live Website
+
+https://optimalphysiotherapyclinic.com
+
+## 📈 Project Overview
+
+Optimal Physiotherapy Clinic is a real-world healthcare platform designed to streamline patient appointments, improve clinic visibility, and enhance patient engagement through a modern digital experience.
+
+The application is currently deployed in production and serves real users.
+
+## ✨ Key Features
+
+* Online Appointment Booking
+* Admin Dashboard
+* Patient Review Management
+* Dynamic Gallery Management
+* WhatsApp Integration
+* Google Maps Integration
+* SEO Optimized Architecture
+* Mobile Responsive Design
+* Fast Performance with Next.js
+* Dynamic Content Management
+
+## 🏥 Business Impact
+
+* Supports real patient appointment scheduling
+* Improves clinic's online presence
+* Reduces manual booking efforts
+* Provides seamless communication through WhatsApp integration
+* Enhances trust through patient reviews and clinic gallery
+
+## 🛠️ Technology Stack
+
+### Frontend
+
+* Next.js
+* React.js
+* TypeScript
+* Tailwind CSS
+
+### Backend & Database
+
+* Supabase
+
+### Deployment
+
+* Vercel
+
+### Development Tools
+
+* Git
+* GitHub
+* VS Code
+
+## 🚀 Installation
 
 ```bash
+git clone https://github.com/mukund260303/optimal-physiotherapy-clinic.git
+cd optimal-physiotherapy-clinic
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 📂 Project Structure
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```text
+app/
+components/
+lib/
+public/
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 👨‍💻 Developer
 
-## Learn More
+Balmukund Patidar
 
-To learn more about Next.js, take a look at the following resources:
+MCA, National Institute of Technology (NIT) Raipur
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+GitHub:
+https://github.com/mukund260303
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+LinkedIn:
+https://www.linkedin.com/in/balmukund-patidar-225796323
 
-## Deploy on Vercel
+## 🌟 Production Status
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+This application is currently deployed and actively used in a real clinical environment.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📄 License
+
+All rights reserved.
