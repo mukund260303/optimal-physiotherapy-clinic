@@ -49,27 +49,53 @@ export default function BookingForm() {
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }))
   }
 
-  const handleSubmit = async (e: React.MouseEvent) => {
-    e.preventDefault()
-    if (!form.patient_name || !form.phone || !form.service) return
+const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault()
 
-    setLoading(true)
-
-    // Same Supabase logic as book/page.tsx — jo wahan kaam karta hai
-    await supabase.from('appointments').insert([{
-      patient_name: form.patient_name,
-      phone: form.phone,
-      date: form.date,
-      time: formatTime12h(form.time) || form.time,
-      service: form.service,
-      status: 'pending'
-    }])
-
-    // book/page.tsx ki tarah — error ho ya na ho, success dikhao
-    setLoading(false)
-    setSuccess(true)
-    setForm({ patient_name: '', phone: '', service: '', date: '', time: '' })
+  if (
+    !form.patient_name ||
+    !form.phone ||
+    !form.service ||
+    !form.date ||
+    !form.time
+  ) {
+    alert("Please fill all fields")
+    return
   }
+
+  setLoading(true)
+
+  const { error } = await supabase
+    .from("appointments")
+    .insert([
+      {
+        patient_name: form.patient_name,
+        phone: form.phone,
+        date: form.date,
+        time: formatTime12h(form.time),
+        service: form.service,
+        status: "pending",
+      },
+    ])
+
+  setLoading(false)
+
+  if (error) {
+    console.error("Supabase Error:", error)
+    alert(error.message)
+    return
+  }
+
+  setSuccess(true)
+
+  setForm({
+    patient_name: "",
+    phone: "",
+    service: "",
+    date: "",
+    time: "",
+  })
+}
 
   return (
     <section ref={ref} id="book" className="px-4 sm:px-6 md:px-20 py-16 md:py-28 bg-white">
@@ -168,7 +194,10 @@ export default function BookingForm() {
                 </motion.button>
               </div>
             ) : (
-              <div className="space-y-4">
+              <form
+  onSubmit={handleSubmit}
+  className="space-y-4"
+>
                 <h3 className="text-white font-black text-2xl uppercase tracking-tighter mb-5">
                   Request a <span className="text-blue-400 italic">Slot</span>
                 </h3>
@@ -203,20 +232,47 @@ export default function BookingForm() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <input type="date" name="date" value={form.date} onChange={handleChange}
                     className="w-full px-5 py-4 bg-slate-800 border border-slate-700 focus:border-blue-500 rounded-2xl outline-none text-white font-bold text-sm transition-colors [color-scheme:dark]" />
-                  <select name="time" value={form.time} onChange={handleChange}
-                    className="w-full px-5 py-4 bg-slate-800 border border-slate-700 focus:border-blue-500 rounded-2xl outline-none text-white font-bold text-sm transition-colors">
-                    <option value="">Preferred Time</option>
-                    <option>Morning (9AM–1PM)</option>
-                    <option>Evening (5PM–8:30PM)</option>
-                  </select>
+               <select
+  name="time"
+  value={form.time}
+  onChange={handleChange}
+  className="w-full px-5 py-4 bg-slate-800 border border-slate-700 focus:border-blue-500 rounded-2xl outline-none text-white font-bold text-sm transition-colors"
+>
+  <option value="">Preferred Time</option>
+  <option value="09:00">09:00 AM</option>
+  <option value="09:30">09:30 AM</option>
+  <option value="10:00">10:00 AM</option>
+  <option value="10:30">10:30 AM</option>
+  <option value="11:00">11:00 AM</option>
+  <option value="11:30">11:30 AM</option>
+  <option value="12:00">12:00 PM</option>
+  <option value="12:30">12:30 PM</option>
+
+  <option value="17:00">05:00 PM</option>
+  <option value="17:30">05:30 PM</option>
+  <option value="18:00">06:00 PM</option>
+  <option value="18:30">06:30 PM</option>
+  <option value="19:00">07:00 PM</option>
+  <option value="19:30">07:30 PM</option>
+  <option value="20:00">08:00 PM</option>
+  <option value="20:30">08:30 PM</option>
+</select>
                 </div>
 
                 <motion.button
-                  onClick={handleSubmit}
-                  disabled={loading || !form.patient_name || !form.phone || !form.service}
-                  className="w-full bg-blue-600 hover:bg-blue-500 disabled:opacity-50 text-white py-5 rounded-2xl font-black text-sm uppercase tracking-widest flex items-center justify-center gap-3 transition-all shadow-xl"
-                  whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.98 }}
-                >
+  type="submit"
+  disabled={
+    loading ||
+    !form.patient_name ||
+    !form.phone ||
+    !form.service ||
+    !form.date ||
+    !form.time
+  }
+  className="w-full bg-blue-600 hover:bg-blue-500 disabled:opacity-50 text-white py-5 rounded-2xl font-black text-sm uppercase tracking-widest flex items-center justify-center gap-3 transition-all shadow-xl"
+  whileHover={{ scale: 1.01 }}
+  whileTap={{ scale: 0.98 }}
+>
                   {loading ? <Loader2 size={20} className="animate-spin" /> : null}
                   {loading ? 'Sending...' : 'Request Appointment'}
                 </motion.button>
@@ -224,7 +280,7 @@ export default function BookingForm() {
                 <p className="text-slate-500 text-[10px] text-center uppercase tracking-widest italic font-bold">
                   Jald hi call/WhatsApp se confirm karenge
                 </p>
-              </div>
+            </form>
             )}
           </motion.div>
         </div>
