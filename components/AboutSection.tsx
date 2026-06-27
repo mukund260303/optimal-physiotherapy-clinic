@@ -118,7 +118,7 @@ export default function AboutSection() {
         {/* Doctor Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
           {[
-            { src: '/gallery/Dr-pavan.png', name: 'Dr. Pavan Patidar (PT)', degree: 'MPT (Orthopaedic)', exp: '12 Years Experience', role: 'Senior Physiotherapist', tags: ['Spine', 'Knee', 'Shoulder', 'Sports Injury'], points: ['Expert in spine, knee, shoulder & sports injury physiotherapy', 'Member of Global Research & Welfare Society, Bhopal M.P.', 'Ex Physiotherapist — Chirayu Medical College & Hospital, Bhopal'], pos: 'object-[center_100%]', accent: 'blue', delay: 0.3 },
+            { src: '/gallery/pavan.jpeg', name: 'Dr. Pavan Patidar (PT)', degree: 'MPT (Orthopaedic)', exp: '12 Years Experience', role: 'Senior Physiotherapist', tags: ['Spine', 'Knee', 'Shoulder', 'Sports Injury'], points: ['Expert in spine, knee, shoulder & sports injury physiotherapy', 'Member of Global Research & Welfare Society, Bhopal M.P.', 'Ex Physiotherapist — Chirayu Medical College & Hospital, Bhopal'], pos: 'object-[center_100%]', accent: 'blue', delay: 0.3 },
             { src: '/gallery/ravina.jpeg', name: 'Dr. Ravina Patidar (PT)', degree: 'MPT (Neuro)', exp: '8 Years Experience', role: 'Senior Physiotherapist', tags: ['Stroke', 'Neuro', 'Neuropathy', "Women's Health"], points: ["Expert in stroke, peripheral neuropathy, diabetic neuropathy & women's health", 'Member of Global Research & Welfare Society, Bhopal M.P.', 'Ex Physiotherapist — CMAS Kohefiza Hospital, Bhopal M.P.'], pos: 'object-[center_0%]', accent: 'purple', delay: 0.45 },
           ].map((doc, i) => (
             <motion.div
