@@ -91,6 +91,19 @@ export default function BookingPage() {
       status: 'pending'
     }])
 
+  await fetch("/api/send-email", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    patient_name: formData.patient_name,
+    phone: formData.phone,
+    service: formData.area,
+    date: formData.date,
+    time: formatTime12h(formData.time),
+  }),
+})
     setLoading(false)
 
     // Supabase fail ho ya pass — hamesha success dikhao

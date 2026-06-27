@@ -77,6 +77,20 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         status: "pending",
       },
     ])
+  await fetch("/api/send-email", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    patient_name: form.patient_name,
+    phone: form.phone,
+    service: form.service,
+    date: form.date,
+    time: formatTime12h(form.time),
+  }),
+})
+
 
   setLoading(false)
 
