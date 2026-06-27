@@ -21,62 +21,206 @@ export default function BookingPage() {
     return `${hours12}:${m} ${suffix}`
   }
 
-  const downloadPDF = () => {
-    const doc = new jsPDF()
-    const time12 = formatTime12h(formData.time)
-    doc.setFillColor(15, 23, 42)
-    doc.rect(0, 0, 210, 50, 'F')
-    doc.setTextColor(255, 255, 255)
-    doc.setFont("helvetica", "bold")
-    doc.setFontSize(26)
-    doc.text("OPTIMAL PHYSIOTHERAPY", 105, 25, { align: 'center' })
-    doc.setFontSize(10)
-    doc.setFont("helvetica", "italic")
-    doc.text("Advanced Rehab & Clinical Excellence Center", 105, 35, { align: 'center' })
-    doc.setTextColor(15, 23, 42)
-    doc.setFontSize(10)
-    doc.setFont("helvetica", "bold")
-    doc.text(`DATE: ${new Date().toLocaleDateString()}`, 160, 65)
-    doc.text(`RECEIPT NO: OP-${Math.floor(1000 + Math.random() * 9000)}`, 20, 65)
-    doc.setDrawColor(37, 99, 235)
-    doc.setLineWidth(0.5)
-    doc.line(20, 75, 190, 75)
-    const rows = [
-      ["PATIENT NAME", formData.patient_name.toUpperCase()],
-      ["CONTACT NO", formData.phone],
-      ["SERVICE", formData.area.toUpperCase()],
-      ["APPOINTMENT DATE", formData.date],
-      ["SCHEDULED TIME", time12],
-      ["CONSULTANT", "Dr. Pavan Patidar (PT)"],
-      ["LOCATION", "Lalghati Crossroads, Bhopal"]
-    ]
-    let yPos = 90
-    rows.forEach(([label, value]) => {
-      doc.setFillColor(248, 250, 252)
-      doc.rect(20, yPos - 7, 60, 12, 'F')
-      doc.setTextColor(71, 85, 105)
-      doc.setFont("helvetica", "bold")
-      doc.setFontSize(9)
-      doc.text(label, 25, yPos)
-      doc.setTextColor(15, 23, 42)
-      doc.setFont("helvetica", "normal")
-      doc.setFontSize(11)
-      doc.text(value, 85, yPos)
-      yPos += 14
-    })
-    doc.setDrawColor(226, 232, 240)
-    doc.line(20, 210, 190, 210)
-    doc.setFontSize(14)
-    doc.setTextColor(37, 99, 235)
-    doc.setFont("helvetica", "bold")
-    doc.text("VERIFIED APPOINTMENT", 105, 225, { align: 'center' })
-    doc.setFontSize(8)
-    doc.setTextColor(148, 163, 184)
-    doc.text("Note: This is a digital receipt for clinical record at Optimal Physiotherapy.", 105, 235, { align: 'center' })
-    doc.setFillColor(37, 99, 235)
-    doc.rect(0, 285, 210, 12, 'F')
-    doc.save(`Optimal_Receipt_${formData.patient_name}.pdf`)
+
+const downloadPDF = async () => {
+  // Initialize A4 Portrait PDF
+  const doc = new jsPDF({
+    orientation: 'portrait',
+    unit: 'mm',
+    format: 'a4',
+  });
+
+  const pageWidth = doc.internal.pageSize.getWidth();
+  
+  // Color Palette
+  const PRIMARY_BLUE = [37, 99, 235]; // #2563EB
+  const DARK_TEXT = [15, 23, 42];     // #0F172A
+  const MUTED_TEXT = [71, 85, 105];   // #475569
+  const LIGHT_GRAY = [226, 232, 240]; // #E2E8F0
+  const CARD_BG = [248, 250, 252];    // #F8FAFC
+  const STATUS_GREEN_BG = [220, 252, 231]; // #DCFCE7
+  const STATUS_GREEN_TXT = [21, 128, 61];  // #15803D
+
+  // 12-Hour Format Helper Function inside downloadPDF to guarantee runtime execution
+  const formatTime12h = (time24: string) => {
+    if (!time24) return '';
+    const [h, m] = time24.split(':');
+    const hours = parseInt(h);
+    const suffix = hours >= 12 ? 'PM' : 'AM';
+    const hours12 = ((hours + 11) % 12) + 1;
+    return `${hours12}:${m} ${suffix}`;
+  };
+
+  // --- HEADER SECTION ---
+  let currentY = 15;
+
+  // Load and add Logo via Fetch + Blob -> Base64 (centered with explicit 'PNG' type)
+  try {
+    const response = await fetch('/logo.png');
+    const blob = await response.blob();
+    const reader = new FileReader();
+
+    const logoBase64 = await new Promise<string>((resolve) => {
+      reader.onloadend = () => resolve(reader.result as string);
+      reader.readAsDataURL(blob);
+    });
+
+    const logoWidth = 25;
+    const logoHeight = 25;
+    const logoX = (pageWidth - logoWidth) / 2;
+    doc.addImage(logoBase64, 'PNG', logoX, currentY, logoWidth, logoHeight);
+    currentY += logoHeight + 6;
+  } catch (error) {
+    currentY += 5;
   }
+
+  // Clinic Details
+  doc.setFont('Helvetica', 'bold');
+  doc.setFontSize(16);
+  doc.setTextColor(PRIMARY_BLUE[0], PRIMARY_BLUE[1], PRIMARY_BLUE[2]);
+  doc.text('OPTIMAL PHYSIOTHERAPY', pageWidth / 2, currentY, { align: 'center' });
+  currentY += 5;
+
+  doc.setFont('Helvetica', 'normal');
+  doc.setFontSize(9);
+  doc.setTextColor(MUTED_TEXT[0], MUTED_TEXT[1], MUTED_TEXT[2]);
+  doc.text('Advanced Rehab & Clinical Excellence Center', pageWidth / 2, currentY, { align: 'center' });
+  currentY += 4;
+
+  doc.text('Lalghati Crossroads, Bhopal, Madhya Pradesh', pageWidth / 2, currentY, { align: 'center' });
+  currentY += 4;
+
+  doc.text('Phone: +91 93295 79550', pageWidth / 2, currentY, { align: 'center' });
+  currentY += 10;
+
+  // Thin Divider Line
+  doc.setDrawColor(LIGHT_GRAY[0], LIGHT_GRAY[1], LIGHT_GRAY[2]);
+  doc.setLineWidth(0.4);
+  doc.line(20, currentY, pageWidth - 20, currentY);
+  currentY += 10;
+
+  // --- RECEIPT METADATA (Receipt No, Booking ID, Date, Status) ---
+  const receiptNo = `OP-${Math.floor(1000 + Math.random() * 9000)}`;
+  const currentDate = new Date().toLocaleDateString();
+
+  doc.setFont('Helvetica', 'bold');
+  doc.setFontSize(9);
+  doc.setTextColor(DARK_TEXT[0], DARK_TEXT[1], DARK_TEXT[2]);
+  doc.text(`RECEIPT NO: ${receiptNo}`, 20, currentY);
+  doc.text(`DATE: ${currentDate}`, pageWidth - 20, currentY, { align: 'right' });
+  currentY += 6;
+
+  // Render Status Badge: CONFIRMED
+  doc.setFont('Helvetica', 'bold');
+  doc.setFontSize(8);
+  const badgeText = 'CONFIRMED';
+  const badgeWidth = doc.getTextWidth(badgeText) + 6;
+  const badgeHeight = 5;
+  doc.setFillColor(STATUS_GREEN_BG[0], STATUS_GREEN_BG[1], STATUS_GREEN_BG[2]);
+  doc.roundedRect(20, currentY - 3.5, badgeWidth, badgeHeight, 1, 1, 'F');
+  doc.setTextColor(STATUS_GREEN_TXT[0], STATUS_GREEN_TXT[1], STATUS_GREEN_TXT[2]);
+  doc.text(badgeText, 23, currentY);
+  
+  currentY += 12;
+
+  // --- DOCUMENT TITLE ---
+  doc.setFont('Helvetica', 'bold');
+  doc.setFontSize(16);
+  doc.setTextColor(PRIMARY_BLUE[0], PRIMARY_BLUE[1], PRIMARY_BLUE[2]);
+  doc.text('APPOINTMENT RECEIPT', pageWidth / 2, currentY, { align: 'center' });
+  currentY += 12;
+
+  // --- DETAILS SECTION (Table-like layout with pixel-perfect adjustments) ---
+  const tableData = [
+    { label: 'Patient Name', value: formData.patient_name.toUpperCase() },
+    { label: 'Phone Number', value: formData.phone },
+    { label: 'Service', value: formData.area.toUpperCase() },
+    { label: 'Appointment Date', value: formData.date },
+    { label: 'Appointment Time', value: formatTime12h(formData.time) },
+    { label: 'Clinic Location', value: 'Lalghati Crossroads, Bhopal, Madhya Pradesh' },
+  ];
+
+  const startX = 20;
+  const labelWidth = 45;
+  const valueWidth = pageWidth - startX - labelWidth - 20;
+  const rowPadding = 5;
+
+  tableData.forEach((row) => {
+    doc.setFont('Helvetica', 'bold');
+    doc.setFontSize(10);
+    doc.setTextColor(DARK_TEXT[0], DARK_TEXT[1], DARK_TEXT[2]);
+    doc.text(row.label, startX, currentY);
+
+    doc.setFont('Helvetica', 'normal');
+    const splitLines = doc.splitTextToSize(row.value, valueWidth);
+    
+    // Balanced fine baseline adjustment (+0.2mm shift for perfect alignment with bold keys)
+    doc.text(splitLines, startX + labelWidth, currentY + 0.2);
+
+    currentY += (splitLines.length * 5) + rowPadding;
+    
+    doc.setDrawColor(LIGHT_GRAY[0], LIGHT_GRAY[1], LIGHT_GRAY[2]);
+    doc.line(startX, currentY - 3, pageWidth - startX, currentY - 3);
+  });
+
+  currentY += 6;
+
+  // --- DOCTOR SECTION (With precise padding updates) ---
+  const cardWidth = pageWidth - 40;
+  const cardHeight = 32;
+  
+  doc.setFillColor(CARD_BG[0], CARD_BG[1], CARD_BG[2]);
+  doc.roundedRect(startX, currentY, cardWidth, cardHeight, 2, 2, 'F');
+
+  // Symmetrical Inner Padding adjustment
+  let docX = startX + 8;
+  let docY = currentY + 7;
+
+  doc.setFont('Helvetica', 'bold');
+  doc.setFontSize(11);
+  doc.setTextColor(DARK_TEXT[0], DARK_TEXT[1], DARK_TEXT[2]);
+  doc.text('Dr. Pavan Patidar (PT)', docX, docY);
+  docY += 5;
+
+  doc.setFont('Helvetica', 'bold');
+  doc.setFontSize(9);
+  doc.setTextColor(PRIMARY_BLUE[0], PRIMARY_BLUE[1], PRIMARY_BLUE[2]);
+  doc.text('MPT (Orthopaedic)', docX, docY);
+  
+  doc.setFont('Helvetica', 'normal');
+  doc.setTextColor(MUTED_TEXT[0], MUTED_TEXT[1], MUTED_TEXT[2]);
+  doc.text('  |  Senior Physiotherapist · 12 Years Experience', docX + doc.getTextWidth('MPT (Orthopaedic)'), docY);
+  docY += 5;
+
+  doc.setFont('Helvetica', 'normal');
+  doc.setFontSize(8.5);
+  doc.text('• Expert in spine, knee, shoulder & sports injury physiotherapy', docX, docY);
+  docY += 4.5;
+  doc.text('• Ex Physiotherapist — Chirayu Medical College & Hospital, Bhopal', docX, docY);
+
+  currentY += cardHeight + 20;
+
+  // --- THANK YOU & NOTES SECTION ---
+  doc.setFont('Helvetica', 'normal');
+  doc.setFontSize(10);
+  doc.setTextColor(DARK_TEXT[0], DARK_TEXT[1], DARK_TEXT[2]);
+  doc.text('Thank you for choosing Optimal Physiotherapy Clinic.', pageWidth / 2, currentY, { align: 'center' });
+  currentY += 8;
+
+  doc.setFont('Helvetica', 'normal');
+  doc.setFontSize(8.5);
+  doc.setTextColor(MUTED_TEXT[0], MUTED_TEXT[1], MUTED_TEXT[2]);
+  doc.text('Note: This is a digital receipt for clinical record at Optimal Physiotherapy.', pageWidth / 2, currentY, { align: 'center' });
+  currentY += 4;
+  doc.text('This is a computer-generated appointment receipt. No signature is required.', pageWidth / 2, currentY, { align: 'center' });
+
+  // --- FOOTER STRIP ---
+  doc.setFillColor(PRIMARY_BLUE[0], PRIMARY_BLUE[1], PRIMARY_BLUE[2]);
+  doc.rect(0, 285, pageWidth, 12, 'F');
+
+  // Save the document with a professional name
+  doc.save(`Optimal_Physiotherapy_Appointment_${formData.patient_name}.pdf`);
+};
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
