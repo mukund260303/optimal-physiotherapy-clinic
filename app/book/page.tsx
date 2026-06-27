@@ -422,12 +422,34 @@ const downloadPDF = async () => {
                   className="w-full p-4 bg-blue-950/20 border-2 border-blue-900/30 focus:border-blue-500 rounded-[1.2rem] outline-none font-bold text-sm text-white [color-scheme:dark]"
                   onChange={(e) => setFormData({...formData, date: e.target.value})} />
               </div>
-              <div className="space-y-2">
-                <label className="text-[10px] font-black uppercase text-blue-300/60 tracking-widest italic">Time</label>
-                <input required type="time" value={formData.time}
-                  className="w-full p-4 bg-blue-950/20 border-2 border-blue-900/30 focus:border-blue-500 rounded-[1.2rem] outline-none font-bold text-sm text-white [color-scheme:dark]"
-                  onChange={(e) => setFormData({...formData, time: e.target.value})} />
-              </div>
+              <select
+  required
+  value={formData.time}
+  onChange={(e) =>
+    setFormData({ ...formData, time: e.target.value })
+  }
+  className="w-full p-4 bg-blue-950/20 border-2 border-blue-900/30 focus:border-blue-500 rounded-[1.2rem] outline-none font-bold text-sm text-white appearance-none"
+>
+  <option value="">Select Time</option>
+
+  <option value="09:00">09:00 AM</option>
+  <option value="09:30">09:30 AM</option>
+  <option value="10:00">10:00 AM</option>
+  <option value="10:30">10:30 AM</option>
+  <option value="11:00">11:00 AM</option>
+  <option value="11:30">11:30 AM</option>
+  <option value="12:00">12:00 PM</option>
+  <option value="12:30">12:30 PM</option>
+
+  <option value="17:00">05:00 PM</option>
+  <option value="17:30">05:30 PM</option>
+  <option value="18:00">06:00 PM</option>
+  <option value="18:30">06:30 PM</option>
+  <option value="19:00">07:00 PM</option>
+  <option value="19:30">07:30 PM</option>
+  <option value="20:00">08:00 PM</option>
+  <option value="20:30">08:30 PM</option>
+</select>
             </div>
 
             <button type="submit" disabled={loading}
