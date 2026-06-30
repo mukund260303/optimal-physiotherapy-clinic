@@ -61,16 +61,99 @@ export default function AdminDashboard() {
     localStorage.removeItem('isOptimalAdmin'); 
     window.location.reload()
   }
+  const formatDate = (date: string) => {
+  return new Date(date).toLocaleDateString("en-IN", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  })
+}
+ const formatTime12h = (time24: string) => {
+  if (!time24) return "";
 
+  const [h, m] = time24.split(":");
+  const hours = parseInt(h);
+
+  const suffix = hours >= 12 ? "PM" : "AM";
+  const hours12 = ((hours + 11) % 12) + 1;
+
+  return `${hours12}:${m} ${suffix}`;
+};
   const handleConfirm = async (apt: any) => {
     const { error } = await supabase.from('appointments').update({ status: 'confirmed' }).eq('id', apt.id)
     if (!error) {
       setAppointments(prev => prev.map(a => a.id === apt.id ? {...a, status: 'confirmed'} : a))
       const patientPhone = apt.phone.startsWith('91') ? apt.phone : `91${apt.phone}`
       
-      // Fixed WhatsApp Details
-      const message = `*Optimal Physiotherapy (Lalghati)* %0A%0AHello *${apt.patient_name}*, aapki appointment confirm ho gayi hai. ✅ %0A%0A📅 *Date:* ${apt.date} %0A⏰ *Time:* ${apt.time} %0A🏥 *Service:* ${apt.service} %0A%0ASee you at the clinic!`;
-      window.open(`https://wa.me/${patientPhone}?text=${message}`, '_blank')
+    const message = `*OPTIMAL PHYSIOTHERAPY CLINIC*
+*Lalghati, Bhopal*
+
+Hello *${apt.patient_name},*
+
+Your appointment has been
+*confirmed successfully.*
+
+━━━━━━━━━━━━━━━━━━━━
+
+*APPOINTMENT DETAILS*
+
+Date
+${formatDate(apt.date)}
+
+Time
+${formatTime12h(apt.time)}
+
+Service
+${apt.service}
+
+━━━━━━━━━━━━━━━━━━━━
+
+*CONSULTING DOCTORS*
+
+*Dr. Pavan Patidar (PT)*
+MPT (Orthopaedics)
+
+*Dr. Ravina Patidar (PT)*
+MPT (Neuro Physiotherapy)
+
+━━━━━━━━━━━━━━━━━━━━
+
+*CLINIC ADDRESS*
+
+Optimal Physiotherapy Clinic
+A-68 Indravihar
+Panchwati Road
+Airport Road
+Lalghati
+Bhopal - 462030
+
+━━━━━━━━━━━━━━━━━━━━
+
+*WEBSITE*
+
+https://optimalphysiotherapyclinic.com
+
+━━━━━━━━━━━━━━━━━━━━
+
+*CALL / WHATSAPP*
+
++91 93295 79550
+
+━━━━━━━━━━━━━━━━━━━━
+
+Thank you for choosing
+*Optimal Physiotherapy Clinic.*
+
+We look forward to helping
+you recover.
+
+Have a healthy day!
+`;
+
+window.open(
+  `https://wa.me/${patientPhone}?text=${encodeURIComponent(message)}`,
+  "_blank"
+)
     }
   }
 
