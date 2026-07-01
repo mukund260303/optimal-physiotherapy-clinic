@@ -86,28 +86,23 @@ export default function AdminDashboard() {
       const patientPhone = apt.phone.startsWith('91') ? apt.phone : `91${apt.phone}`
       
     const message = `*OPTIMAL PHYSIOTHERAPY CLINIC*
-*Lalghati, Bhopal*
+A-68 Indravihar , Panchwati Road
+Airport Road , Lalghati
+Bhopal - 462030
 
 Hello *${apt.patient_name},*
 
 Your appointment has been
 *confirmed successfully.*
-
 ━━━━━━━━━━━━━━━━━━━━
-
 *APPOINTMENT DETAILS*
 
-Date
-${formatDate(apt.date)}
+Date : ${formatDate(apt.date)}
 
-Time
-${formatTime12h(apt.time)}
+Time : ${formatTime12h(apt.time)}
 
-Service
-${apt.service}
-
+Service : ${apt.service}
 ━━━━━━━━━━━━━━━━━━━━
-
 *CONSULTING DOCTORS*
 
 *Dr. Pavan Patidar (PT)*
@@ -115,29 +110,10 @@ MPT (Orthopaedics)
 
 *Dr. Ravina Patidar (PT)*
 MPT (Neuro Physiotherapy)
-
 ━━━━━━━━━━━━━━━━━━━━
-
-*CLINIC ADDRESS*
-
-Optimal Physiotherapy Clinic
-A-68 Indravihar
-Panchwati Road
-Airport Road
-Lalghati
-Bhopal - 462030
-
-━━━━━━━━━━━━━━━━━━━━
-
 *WEBSITE*
 
 https://optimalphysiotherapyclinic.com
-
-━━━━━━━━━━━━━━━━━━━━
-
-*CALL / WHATSAPP*
-
-+91 93295 79550
 
 ━━━━━━━━━━━━━━━━━━━━
 
