@@ -63,13 +63,32 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     return
   }
 
+  // Mobile Number Validation
+  const phoneRegex = /^[6-9]\d{9}$/
+
+  if (!phoneRegex.test(form.phone)) {
+    alert("Please enter a valid 10-digit mobile number.")
+    return
+  }
+
+  // Past Date Validation
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
+
+  const selectedDate = new Date(form.date)
+
+  if (selectedDate < today) {
+    alert("Past dates are not allowed.")
+    return
+  }
+
   setLoading(true)
 
   const { error } = await supabase
     .from("appointments")
     .insert([
       {
-        patient_name: form.patient_name,
+        patient_name: form.patient_name.trim(),
         phone: form.phone,
         date: form.date,
         time: formatTime12h(form.time),
@@ -77,20 +96,20 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         status: "pending",
       },
     ])
-  await fetch("/api/send-email", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify({
-    patient_name: form.patient_name,
-    phone: form.phone,
-    service: form.service,
-    date: form.date,
-    time: formatTime12h(form.time),
-  }),
-})
 
+  await fetch("/api/send-email", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      patient_name: form.patient_name.trim(),
+      phone: form.phone,
+      service: form.service,
+      date: form.date,
+      time: formatTime12h(form.time),
+    }),
+  })
 
   setLoading(false)
 
@@ -227,9 +246,23 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
                 {/* Phone */}
                 <div className="relative">
                   <Phone size={16} className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-500" />
-                  <input type="tel" name="phone" placeholder="Phone Number * (WhatsApp)"
-                    value={form.phone} onChange={handleChange}
-                    className="w-full pl-12 pr-5 py-4 bg-slate-800 border border-slate-700 focus:border-blue-500 rounded-2xl outline-none text-white font-bold text-sm placeholder:text-slate-500 transition-colors" />
+                  <input
+  type="tel"
+  name="phone"
+  inputMode="numeric"
+  maxLength={10}
+  pattern="[6-9]{1}[0-9]{9}"
+  placeholder="10-digit Mobile Number"
+  value={form.phone}
+  onChange={(e) => {
+    const value = e.target.value.replace(/\D/g, "")
+    setForm(prev => ({
+      ...prev,
+      phone: value
+    }))
+  }}
+  className="w-full pl-12 pr-5 py-4 bg-slate-800 border border-slate-700 focus:border-blue-500 rounded-2xl outline-none text-white font-bold text-sm placeholder:text-slate-500 transition-colors"
+/>
                 </div>
 
                 {/* Service */}
@@ -244,8 +277,14 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 
                 {/* Date + Time */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <input type="date" name="date" value={form.date} onChange={handleChange}
-                    className="w-full px-5 py-4 bg-slate-800 border border-slate-700 focus:border-blue-500 rounded-2xl outline-none text-white font-bold text-sm transition-colors [color-scheme:dark]" />
+                  <input
+  type="date"
+  name="date"
+  min={new Date().toISOString().split("T")[0]}
+  value={form.date}
+  onChange={handleChange}
+  className="w-full px-5 py-4 bg-slate-800 border border-slate-700 focus:border-blue-500 rounded-2xl outline-none text-white font-bold text-sm transition-colors [color-scheme:dark]"
+/>
                <select
   name="time"
   value={form.time}

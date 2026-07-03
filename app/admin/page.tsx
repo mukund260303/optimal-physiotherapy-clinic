@@ -87,16 +87,20 @@ export default function AdminDashboard() {
       
     const message = `*OPTIMAL PHYSIOTHERAPY CLINIC*
 A-68 Indravihar , Panchwati Road
-Airport Road , Lalghati
-Bhopal - 462030
+Airport Road , Lalghati , Bhopal - 462030
 
 Hello *${apt.patient_name},*
 
 Your appointment has been
 *confirmed successfully.*
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━
 *APPOINTMENT DETAILS*
 
+Date : ${formatDate(apt.date)}
+Time : ${formatTime12h(apt.time)}
+Service : ${apt.service}
+━━━━━━━━━━━━━━━━━━━━━━━━━━
 Date : ${formatDate(apt.date)}
 Time : ${formatTime12h(apt.time)}
 Service : ${apt.service}
@@ -110,9 +114,12 @@ MPT (Orthopaedics)
 MPT (Neuro Physiotherapy)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
 *VISIT OUR WEBSITE*
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+*VISIT OUR WEBSITE*
 
 https://optimalphysiotherapyclinic.com
 
+━━━━━━━━━━━━━━━━━━━━━━━━━━
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Thank you for choosing

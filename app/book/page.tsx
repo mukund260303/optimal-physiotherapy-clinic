@@ -223,42 +223,64 @@ const downloadPDF = async () => {
 };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setLoading(true)
+  e.preventDefault()
 
-    const { error } = await supabase.from('appointments').insert([{
-      patient_name: formData.patient_name,
+  // Phone Validation
+  const phoneRegex = /^[6-9]\d{9}$/
+
+  if (!phoneRegex.test(formData.phone)) {
+    alert("Please enter a valid 10-digit mobile number.")
+    return
+  }
+
+  // Date Validation
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
+
+  const selectedDate = new Date(formData.date)
+
+  if (selectedDate < today) {
+    alert("Past dates are not allowed.")
+    return
+  }
+
+  setLoading(true)
+
+  const { error } = await supabase.from("appointments").insert([
+    {
+      patient_name: formData.patient_name.trim(),
       phone: formData.phone,
       date: formData.date,
       time: formatTime12h(formData.time),
       service: formData.area,
-      status: 'pending'
-    }])
+      status: "pending",
+    },
+  ])
 
   await fetch("/api/send-email", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify({
-    patient_name: formData.patient_name,
-    phone: formData.phone,
-    service: formData.area,
-    date: formData.date,
-    time: formatTime12h(formData.time),
-  }),
-})
-    setLoading(false)
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      patient_name: formData.patient_name.trim(),
+      phone: formData.phone,
+      service: formData.area,
+      date: formData.date,
+      time: formatTime12h(formData.time),
+    }),
+  })
 
-    // Supabase fail ho ya pass — hamesha success dikhao
-    // Koi WhatsApp redirect nahi — seedha success screen
-    if (error) {
-      console.warn('Supabase:', error.message)
-      // RLS fix hone tak bhi user ko success dikhao
-    }
+  setLoading(false)
 
-    setSubmitted(true)
+  if (error) {
+    console.warn("Supabase:", error.message)
+    alert(error.message)
+    return
   }
+
+  setSubmitted(true)
+}
 
   if (submitted) return (
     <div className="min-h-screen bg-[#020617] flex items-center justify-center p-4 md:p-6">
@@ -388,9 +410,22 @@ const downloadPDF = async () => {
               </div>
               <div className="space-y-2">
                 <label className="text-[10px] font-black uppercase text-blue-300/60 tracking-widest italic">WhatsApp No.</label>
-                <input required type="tel" value={formData.phone} placeholder="+91 XXXXX XXXXX"
-                  onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                  className="w-full px-5 py-4 bg-blue-950/20 border-2 border-blue-900/30 focus:border-blue-500 rounded-[1.2rem] outline-none font-bold text-sm text-white transition-all placeholder:text-slate-600" />
+                <input
+  required
+  type="tel"
+  inputMode="numeric"
+  maxLength={10}
+  pattern="[6-9]{1}[0-9]{9}"
+  value={formData.phone}
+  placeholder="10-digit Mobile Number"
+  onChange={(e) =>
+    setFormData({
+      ...formData,
+      phone: e.target.value.replace(/\D/g, "")
+    })
+  }
+  className="w-full px-5 py-4 bg-blue-950/20 border-2 border-blue-900/30 focus:border-blue-500 rounded-[1.2rem] outline-none font-bold text-sm text-white transition-all placeholder:text-slate-600"
+/>
               </div>
             </div>
 
@@ -418,9 +453,19 @@ const downloadPDF = async () => {
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <label className="text-[10px] font-black uppercase text-blue-300/60 tracking-widest italic">Date</label>
-                <input required type="date" value={formData.date}
-                  className="w-full p-4 bg-blue-950/20 border-2 border-blue-900/30 focus:border-blue-500 rounded-[1.2rem] outline-none font-bold text-sm text-white [color-scheme:dark]"
-                  onChange={(e) => setFormData({...formData, date: e.target.value})} />
+                <input
+              required
+              type="date"
+              min={new Date().toISOString().split("T")[0]}
+              value={formData.date}
+              className="w-full p-4 bg-blue-950/20 border-2 border-blue-900/30 focus:border-blue-500 rounded-[1.2rem] outline-none font-bold text-sm text-white [color-scheme:dark]"
+              onChange={(e) =>
+              setFormData({
+              ...formData,
+              date: e.target.value,
+       })
+  }
+/>
               </div>
               <select
   required
