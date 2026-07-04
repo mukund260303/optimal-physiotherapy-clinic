@@ -368,7 +368,7 @@ const downloadPDF = async () => {
 
             <p className="text-slate-400 text-xs font-medium italic leading-relaxed">
               Lalghati Crossroads, Bhopal MP<br />
-              Mon–Sat: 9AM–1PM & 5PM–8:30PM
+              Mon–Sat: 9:00 AM–1:00 PM & 4:00 PM–8:00 PM
             </p>
 
             {/* Stats */}
@@ -467,7 +467,7 @@ const downloadPDF = async () => {
   }
 />
               </div>
-              <select
+             <select
   required
   value={formData.time}
   onChange={(e) =>
@@ -477,23 +477,51 @@ const downloadPDF = async () => {
 >
   <option value="">Select Time</option>
 
+  {/* Morning */}
   <option value="09:00">09:00 AM</option>
+  <option value="09:15">09:15 AM</option>
   <option value="09:30">09:30 AM</option>
+  <option value="09:45">09:45 AM</option>
+
   <option value="10:00">10:00 AM</option>
+  <option value="10:15">10:15 AM</option>
   <option value="10:30">10:30 AM</option>
+  <option value="10:45">10:45 AM</option>
+
   <option value="11:00">11:00 AM</option>
+  <option value="11:15">11:15 AM</option>
   <option value="11:30">11:30 AM</option>
+  <option value="11:45">11:45 AM</option>
+
   <option value="12:00">12:00 PM</option>
+  <option value="12:15">12:15 PM</option>
   <option value="12:30">12:30 PM</option>
+  <option value="12:45">12:45 PM</option>
+
+  <option value="13:00">01:00 PM</option>
+
+  {/* Evening */}
+  <option value="16:00">04:00 PM</option>
+  <option value="16:15">04:15 PM</option>
+  <option value="16:30">04:30 PM</option>
+  <option value="16:45">04:45 PM</option>
 
   <option value="17:00">05:00 PM</option>
+  <option value="17:15">05:15 PM</option>
   <option value="17:30">05:30 PM</option>
+  <option value="17:45">05:45 PM</option>
+
   <option value="18:00">06:00 PM</option>
+  <option value="18:15">06:15 PM</option>
   <option value="18:30">06:30 PM</option>
+  <option value="18:45">06:45 PM</option>
+
   <option value="19:00">07:00 PM</option>
+  <option value="19:15">07:15 PM</option>
   <option value="19:30">07:30 PM</option>
+  <option value="19:45">07:45 PM</option>
+
   <option value="20:00">08:00 PM</option>
-  <option value="20:30">08:30 PM</option>
 </select>
             </div>
 
