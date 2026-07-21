@@ -52,7 +52,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Optimal Physiotherapy | Best Clinic in Lalghati Bhopal",
     description:
-      "Advanced physiotherapy for spine, sports injury, neuro rehabilitation & women's health in Lalghati, Bhopal.",
+      "Advanced physiotherapy for spine, sports injury, Orthopedic , neuro rehabilitation & women's health in Lalghati, Bhopal.",
     url: "https://www.optimalphysiotherapyclinic.com",
     siteName: "Optimal Physiotherapy",
     locale: "en_IN",
@@ -71,7 +71,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Optimal Physiotherapy | Best Clinic in Lalghati Bhopal",
     description:
-      "Expert physiotherapy for back pain, sports injury, stroke & neuro rehabilitation in Bhopal.",
+      "Expert physiotherapy for back pain, sports injury,Orthopedic, stroke & neuro rehabilitation in Bhopal.",
     images: ["https://optimalphysiotherapyclinic.com/logo.png"],
   },
 

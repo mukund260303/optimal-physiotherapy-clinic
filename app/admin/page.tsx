@@ -93,40 +93,23 @@ Hello *${apt.patient_name},*
 
 Your appointment has been
 *confirmed successfully.*
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-*APPOINTMENT DETAILS*
+Date : ${formatDate(apt.date)}
+Time : ${formatTime12h(apt.time)}
+Service : ${apt.service}
 
-Date : ${formatDate(apt.date)}
-Time : ${formatTime12h(apt.time)}
-Service : ${apt.service}
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-Date : ${formatDate(apt.date)}
-Time : ${formatTime12h(apt.time)}
-Service : ${apt.service}
-━━━━━━━━━━━━━━━━━━━━━━━━━━
 *CONSULTING DOCTORS*
 
 *Dr. Pavan Patidar (PT)*
 MPT (Orthopaedics)
-
 *Dr. Ravina Patidar (PT)*
 MPT (Neuro Physiotherapy)
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-*VISIT OUR WEBSITE*
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-*VISIT OUR WEBSITE*
 
+*VISIT OUR WEBSITE*
 https://optimalphysiotherapyclinic.com
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-
+*Review On YouTube* 
+https://www.youtube.com/@optimalphysiotherapyhealthandw/shorts
 Thank you for choosing
 *Optimal Physiotherapy Clinic.*
-
-We look forward to helping
-you recover.
 
 Have a healthy day!
 `;

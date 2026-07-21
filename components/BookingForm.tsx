@@ -7,6 +7,8 @@ import SectionHeading from '@/components/SectionHeading'
 
 const services = [
   'Spine & Back Pain',
+  'Ligament and Muscles injury',
+  'Stroke Rehabilitation',
   'Sports Rehabilitation',
   'Neuro Physiotherapy (Stroke)',
   "Women's Health Physiotherapy",
@@ -216,7 +218,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
                 </motion.div>
                 <h3 className="text-2xl font-black text-white uppercase tracking-tighter">Booking Successful!</h3>
                 <p className="text-slate-400 text-sm italic font-medium max-w-xs leading-relaxed">
-                  Hum aapko jald hi <span className="text-green-400 font-bold">+91 93295 79550</span> pe call karke confirm karenge. Shukriya! 🙏
+                  Hum aapko jald hi <span className="text-green-400 font-bold">+91 93295 79550</span> pe call karke ya WhatsApp pr confirm karenge. Shukriya! 🙏
                 </p>
                 <motion.button
                   onClick={() => setSuccess(false)}
