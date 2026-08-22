@@ -1,31 +1,28 @@
 'use client'
-import { useState, useEffect } from 'react'
+
+import { useState } from 'react'
 import { ShieldCheck } from 'lucide-react'
+import { supabase } from '@/lib/supabase'
 
 export default function LoginPage() {
   const [user, setUser] = useState('')
   const [pass, setPass] = useState('')
   
-  const ADMIN_USER = "optimal_pavan"
-  const ADMIN_PASS = "optimal_pavan@2026"
+const handleLogin = async (e: React.FormEvent) => {
+  e.preventDefault()
 
-  useEffect(() => {
-    const authStatus = localStorage.getItem('isOptimalAdmin')
-    if (authStatus === 'true') {
-      window.location.href = '/admin'
-    }
-  }, [])
+  const { error } = await supabase.auth.signInWithPassword({
+    email: user,
+    password: pass,
+  })
 
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (user === ADMIN_USER && pass === ADMIN_PASS) {
-      localStorage.setItem('isOptimalAdmin', 'true')
-      window.location.href = '/admin'
-    } else {
-      alert("Galat Credentials! Access Denied.")
-    }
+  if (error) {
+    alert('Wrong Credentials! Access Denied.')
+    return
   }
 
+  window.location.href = '/admin'
+}
   return (
     <div className="min-h-screen bg-[#020617] flex items-center justify-center p-6 relative overflow-hidden text-white font-sans">
       <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-blue-600/10 blur-[100px] rounded-full" />
@@ -44,8 +41,8 @@ export default function LoginPage() {
           <div className="space-y-2">
             <label className="text-[9px] font-black text-blue-400 uppercase ml-2 tracking-widest italic">Identity</label>
             <input 
-              type="text" 
-              placeholder="Username"
+              type="email" 
+              placeholder="Admin Email"
               className="w-full p-5 bg-blue-950/30 border-2 border-blue-900/30 focus:border-blue-500 rounded-2xl outline-none font-bold text-sm text-white transition-all"
               onChange={(e) => setUser(e.target.value)}
               required

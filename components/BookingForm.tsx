@@ -47,10 +47,11 @@ export default function BookingForm() {
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
 
+//only update one field while keeping the rest of the form state unchangeed.
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }))
   }
-
+// Form submission handler
 const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
   e.preventDefault()
 
@@ -115,6 +116,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 
   setLoading(false)
 
+  // Error Handling for fake booking submission
   if (error) {
     console.error("Supabase Error:", error)
     alert(error.message)
@@ -122,7 +124,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
   }
 
   setSuccess(true)
-
+// Reset form after successful submission
   setForm({
     patient_name: "",
     phone: "",

@@ -12,14 +12,8 @@ import autoTable from 'jspdf-autotable'
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, BarChart, Bar, XAxis, YAxis } from 'recharts'
 
 export default function AdminDashboard() {
-  // --- 1. AUTHENTICATION ---
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
-  const [user, setUser] = useState('')
-  const [pass, setPass] = useState('')
-  const [authLoading, setAuthLoading] = useState(true)
-
-  const ADMIN_USER = "admin_pavan"
-  const ADMIN_PASS = "optimal@2026"
+ const [isAuthenticated, setIsAuthenticated] = useState(false)
+const [authLoading, setAuthLoading] = useState(true)
 
   // --- 2. DATA STATES ---
   const [appointments, setAppointments] = useState<any[]>([])
@@ -29,14 +23,24 @@ export default function AdminDashboard() {
   const [filterStatus, setFilterStatus] = useState('all')
   const [newPhoto, setNewPhoto] = useState({ image_url: '', caption: '', category: 'Clinic' })
 
-  useEffect(() => {
-    const authStatus = localStorage.getItem('isOptimalAdmin')
-    if (authStatus === 'true') {
-      setIsAuthenticated(true)
-      fetchData()
+useEffect(() => {
+  const checkAuth = async () => {
+    const {
+      data: { session },
+    } = await supabase.auth.getSession()
+
+    if (!session) {
+      window.location.href = '/login'
+      return
     }
+
+    setIsAuthenticated(true)
+    fetchData()
     setAuthLoading(false)
-  }, [])
+  }
+
+  checkAuth()
+}, [])
 
   async function fetchData() {
     setLoading(true)
@@ -47,19 +51,9 @@ export default function AdminDashboard() {
     setLoading(false)
   }
 
-  // --- 3. CORE ACTIONS ---
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (user === ADMIN_USER && pass === ADMIN_PASS) {
-      localStorage.setItem('isOptimalAdmin', 'true')
-      setIsAuthenticated(true)
-      fetchData()
-    } else { alert("❌ Unauthorized! Check Username/Password") }
-  }
-
-  const handleLogout = () => {
-    localStorage.removeItem('isOptimalAdmin'); 
-    window.location.reload()
+  const handleLogout = async () => {
+    await supabase.auth.signOut()
+    window.location.href = '/login'
   }
   const formatDate = (date: string) => {
   return new Date(date).toLocaleDateString("en-IN", {
@@ -171,26 +165,13 @@ window.open(
     (filterStatus === 'all' || a.status === filterStatus)
   )
 
-  if (authLoading) return null
-
-  // --- LOGIN UI ---
-  if (!isAuthenticated) {
-    return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center p-6 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-100 blur-[120px] rounded-full" />
-        <form onSubmit={handleLogin} className="max-w-md w-full bg-white p-12 rounded-[4rem] border border-slate-200 shadow-2xl relative z-10">
-          <div className="bg-blue-600 w-20 h-20 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-xl shadow-blue-200"><ShieldCheck className="text-white" size={40} /></div>
-          <h2 className="text-3xl font-black text-slate-800 text-center uppercase tracking-tighter italic underline decoration-blue-500 underline-offset-8">Admin <span className="text-blue-600">Access</span></h2>
-          <div className="space-y-4 mt-10">
-            <div className="relative"><User className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400" size={18} /><input type="text" placeholder="Admin ID" className="w-full pl-14 pr-6 py-5 bg-slate-50 border-2 border-slate-100 focus:border-blue-500 rounded-2xl outline-none font-bold" onChange={(e) => setUser(e.target.value)} /></div>
-            <div className="relative"><KeyRound className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400" size={18} /><input type="password" placeholder="Pass-Key" className="w-full pl-14 pr-6 py-5 bg-slate-50 border-2 border-slate-100 focus:border-blue-500 rounded-2xl outline-none font-bold" onChange={(e) => setPass(e.target.value)} /></div>
-          </div>
-          <button type="submit" className="w-full bg-blue-600 text-white p-6 rounded-[2rem] font-black uppercase tracking-widest mt-8 hover:bg-slate-900 transition-all shadow-lg italic">Authorize Uplink</button>
-        </form>
-      </div>
-    )
-  }
-
+ if (authLoading) {
+  return (
+    <div className="min-h-screen flex items-center justify-center">
+      Checking authentication...
+    </div>
+  )
+}
   // --- DASHBOARD UI ---
   return (
     <div className="min-h-screen bg-[#F8FAFC] p-4 md:p-10 font-sans text-slate-900">
